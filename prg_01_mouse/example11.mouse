@@ -1,0 +1,4 @@
+N "Enter your age." ? =
+N .
+N < 21 [ ! " Underage. Cannot buy Alchol" ]
+$$
