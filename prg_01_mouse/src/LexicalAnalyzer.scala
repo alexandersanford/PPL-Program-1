@@ -105,7 +105,7 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
              } // End second if
           } // End first if
 
-
+          // testing 1 2 3 can anybody hear me
 
         // throw an exception if an unrecognizable symbol is found
         throw new Exception("Lexical Analyzer Error: unrecognizable symbol found!")
