@@ -105,13 +105,148 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
              } // End second if
           } // End first if
 
-          // testing 1 2 3 can anybody hear me
+        else if (hasLetter) {
+          nextChar
+          var str = c + ""
+          return new Lexeme(str, Token.IDENTIFIER)
+        } // End if
+          
+        else if (hasDigit())
+          {
+            nextChar
+            var str = c + ""
+            var done = false
+            if(c == 0) return new Lexeme(str, Token.LITERAL)
+            else
+              {
+                while(!done)
+                  {
+                    if(eof) done = true
+                    else
+                      {
+                        c = getChar
+                        if(hasDigit())
+                          {
+                            str += c
+                            nextChar
+                          } // End if
+                        else done = true
+                      } // End else
+                  } // End while
+                return new Lexeme(str, Token.LITERAL)
+              } // End else
+          } // End else if
+
+        else if (c == '+') {
+          val str = c + ""
+          nextChar
+          return new Lexeme(str, Token.PLUS)
+        } // End else if
+          
+      else if (c == '-') {
+          val str = c + ""
+          nextChar
+          return new Lexeme(str, Token.MINUS)
+        } // End else if
+          
+      else if (c == '?') {
+          val str = c + ""
+          nextChar
+          return new Lexeme(str, Token.QUESTION)
+        } // End else if
+          
+      else if (c == '=') {
+          val str = c + ""
+          nextChar
+          return new Lexeme(str, Token.EQUALS)
+        } // End else if
+          
+      else if (c == '!') {
+          val str = c + ""
+          nextChar
+          return new Lexeme(str, Token.EXCLAMATION)
+        } // End else if    
+          
+      else if (c == '*') {
+          val str = c + ""
+          nextChar
+          return new Lexeme(str, Token.MULTIPLY)
+        } // End else if
+          
+        else if (c == '/') {
+          val str = c + ""
+          nextChar
+          return new Lexeme(str, Token.DIVIDE)
+        } // End else if
+          
+        else if (c == '\\') {
+          val str = c + ""
+          nextChar
+          return new Lexeme(str, Token.MODULO)
+        } // End else if
+
+        else if (c == '^')
+          {
+            val str = c + ""
+            nextChar
+            return new Lexeme(str, Token.BREAK)
+          } // End else if
+
+        else if (c == '.')
+          {
+            val str = c + ""
+            nextChar
+            return new Lexeme(str, Token.DOT)
+          } // End else if
+
+        else if (c == '[')
+          {
+            val str = c + ""
+            nextChar
+            return new Lexeme(str, Token.OPEN_BRACKET)
+          } // End else if
+
+        else if (c == ']')
+          {
+            val str = c + ""
+            nextChar
+            return new Lexeme(str, Token.CLOSE_BRACKET)
+          } // End else if
+          
+        else if (c == '(') {
+          val str = c + ""
+          nextChar
+          return new Lexeme(str, Token.OPEN_PAR)
+        } // End else if
+
+        else if (c == ')') {
+          val str = c + ""
+          nextChar
+          return new Lexeme(str, Token.CLOSE_PAR)
+        } // End else if
+
+        else if (c == '"') {
+          var string = ""
+          nextChar
+          while (!eof && getChar() != '\n' && getChar() != '"') {
+            string += getChar()
+            nextChar
+          }
+          if (getChar() == '"') {
+            nextChar
+            return new Lexeme(string, Token.STRING)
+          }
+          else {
+            throw new Exception("Lexical Analyzer error: Closing '\"' expected!")
+          }
+        } // End else if
+        
+        // else if (c == 'if')
+        // testing 1 2 3 can anybody hear me
 
         // throw an exception if an unrecognizable symbol is found
         throw new Exception("Lexical Analyzer Error: unrecognizable symbol found!")
       } // End next
-      
-
     } // End Iterator[Lexeme]
   } // End iterator: Iterator[Lexeme]
 } // End class
