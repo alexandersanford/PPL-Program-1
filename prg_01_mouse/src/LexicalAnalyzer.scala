@@ -15,7 +15,9 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
   for (line <- Source.fromFile(source).getLines)
     input += line + NEW_LINE
   input = input.trim
-
+  
+  
+  
   // checks if reached eof
   private def eof: Boolean = {
     input.length == 0

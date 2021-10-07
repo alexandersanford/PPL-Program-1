@@ -32,7 +32,7 @@ class SyntaxAnalyzer(private var source: String) {
 
   private val it = new LexicalAnalyzer(source).iterator
   private var current: Lexeme = null
-
+  
   // returns the current lexeme
   private def getLexeme(): Lexeme = {
     if (current == null) {
@@ -58,23 +58,18 @@ class SyntaxAnalyzer(private var source: String) {
   {
     // create a parse tree with non-terminal value "mouse"
     val tree = new Tree("mouse")
+   
     while (getLexeme().getToken() != Token.EO_PRG) {
-      if (getLexeme().getToken() == Token.OPEN_PAR || getLexeme().getToken() == Token.CLOSE_PAR) {
-       /* val lexeme = getLexeme()
-        val subTree = new Tree(lexeme.getLabel())
-        tree.add(subTree)
-        nextLexeme()
-        return tree*/
-        tree.add(parseIf())
-      }
-      else
-        tree.add(parseStatement())  
+      if (getLexeme().getToken() == Token.EOF) {
+        throw new Error("No '$$' found! Invalid Mouse file!")
+      }  
+      tree.add(parseStatement())
     }
+    
     val lexeme = getLexeme()
     val subTree = new Tree(lexeme.getLabel())
-      tree.add(subTree)
-      // Return tree
-      tree
+    tree.add(subTree)
+    tree
   } // End parseMouse method
 
   /* 2.) statement =  ́? ́ |  ́! ́ | string | identifier |  ́= ́ | literal |
@@ -83,151 +78,114 @@ class SyntaxAnalyzer(private var source: String) {
   */
   private def parseStatement(): Tree = {
     val lexeme = getLexeme()
-    /*if (lexeme.getToken() == Token.EO_PRG) {
-      val tree = new Tree("$$")
-      tree
-    }
-    else {
-     */ 
     val tree = new Tree("statement")
-    
 
-//    if(lexeme.getToken == Token.QUESTION ||
-//       lexeme.getToken == Token.EXCLAMATION ||
-//       lexeme.getToken == Token.EQUALS || lexeme.getToken == Token.PLUS ||
-//       lexeme.getToken == Token.MINUS || lexeme.getToken == Token.MULTIPLY ||
-//       lexeme.getToken == Token.DIVIDE || lexeme.getToken == Token.MODULO ||
-//       lexeme.getToken == Token.BREAK || lexeme.getToken == Token.DOT)
-//      {
-//        // Add a new subtree if any of the tokens are found
-//        val subTree = new Tree(lexeme.getLabel())
-//        tree.add(subTree)
-//        nextLexeme()
-//      } // End if
-
-
-
-      if (lexeme.getToken == Token.IDENTIFIER) {
-        val subTree = new Tree("identifier")
-        subTree.setAttribute("value", lexeme.getLabel())
-        //subTree.setAttribute("label: string", " value: " + lexeme.getLabel())
-        tree.add(subTree)
-        nextLexeme()
-        //tree.add(parseStatement())
-      } // End if
+    if (lexeme.getToken == Token.IDENTIFIER) {
+      val subTree = new Tree("identifier")
+      subTree.setAttribute("value", lexeme.getLabel())
+      tree.add(subTree)
+      nextLexeme()
+    } // End if
         
-      else if (lexeme.getToken == Token.LITERAL) {
-        val subTree = new Tree("literal")
-        subTree.setAttribute("value", lexeme.getLabel())
-        tree.add(subTree)
-        nextLexeme()
-        //tree.add(parseStatement())
-      } // End else if
+    else if (lexeme.getToken == Token.LITERAL) {
+      val subTree = new Tree("literal")
+      subTree.setAttribute("value", lexeme.getLabel())
+      tree.add(subTree)
+      nextLexeme()
+    } // End else if
         
-      else if (lexeme.getToken == Token.STRING) {
-        tree.add(parseString())
-        //tree.add(parseStatement())
-      }
+    else if (lexeme.getToken == Token.STRING) 
+      tree.add(parseString())
 
-      else if (lexeme.getToken == Token.OPEN_BRACKET)/* || lexeme.getToken == Token.CLOSE_BRACKET)*/ {
-        tree.add(parseIf())
-      }
+    else if (lexeme.getToken == Token.OPEN_BRACKET) 
+      tree.add(parseIf())
 
-      else if (lexeme.getToken == Token.OPEN_PAR) /*|| lexeme.getToken == Token.CLOSE_PAR)*/ {
-        tree.add(parseWhile())
-      }
+    else if (lexeme.getToken == Token.OPEN_PAR) 
+      tree.add(parseWhile())
       
-      else {
-        val subTree = new Tree(lexeme.getLabel())
-        tree.add(subTree)
-        nextLexeme()
-        //tree.add(parseStatement())
-      }
+   /* else if (lexeme.getToken == Token.CLOSE_BRACKET) 
+      throw new Error("Syntax Analyzer error: Opening '[' expected!")
+        
+    else if (lexeme.getToken == Token.CLOSE_PAR) 
+      throw new Error("Syntax Analyzer error: Opening '(' expected!")
+      */
       
-      // Return tree
-      tree
-   // } // End else
+    else {
+      val subTree = new Tree(lexeme.getLabel())
+      tree.add(subTree)
+      nextLexeme()
+    } // End else
+      
+    // Return tree
+    tree
   } // End parseStatement
 
 
   // 3.) string =  ́" ́ { character }  ́" ́
-  private def parseString(): Tree =
-  {
+  private def parseString(): Tree = {
     val lexeme = getLexeme()
     val tree = new Tree("string")
     tree.setAttribute("value", lexeme.getLabel())
     nextLexeme() 
-    // Return the tree
+    // Return tree
     tree
   }
-
-
-
+  
   // if = ´[´ { statement } ´]´
-  private def parseIf(): Tree =
-  {
+  private def parseIf(): Tree = {
     var lexeme = getLexeme()
-    //if (lexeme.getToken() == Token.OPEN_PAR) {
     val tree = new Tree("if")
     while (getLexeme().getToken() != Token.CLOSE_BRACKET) {
       val subTree = new Tree(lexeme.getLabel())
       nextLexeme()
-      lexeme = getLexeme()
       tree.add(subTree)
-      tree.add(parseStatement())
-      
-      print("a\n")
-      
-      
-      return tree
-    }
+      while (getLexeme().getToken() != Token.CLOSE_BRACKET) {
+        if (getLexeme().getToken() == Token.EO_PRG) {
+          throw new Error("Closing ']' expected!")
+        }
+        tree.add(parseStatement())
+      } // End inner while
+    } // End outer while
+    
     lexeme = getLexeme()
-    val subTree = new Tree(lexeme.getLabel())
-    tree.add(subTree)
-    nextLexeme()
-          //tree.add(parseStatement())
-         // End inner if
-
-   /*   else
-        throw new Error("Closing ']' expected!")
-
-     // End outer if
-    else
-        throw new Error("Opening '[' expected!")*/
-
-  // Return the tree
-  tree
-  } // End parseIf
-
-
-  private def parseWhile(): Tree = {
-    val tree = new Tree("while")
-    var lexeme = getLexeme()
-   // nextLexeme()
-
-    while (lexeme.getToken() != Token.CLOSE_PAR) {
+    if (lexeme.getToken() == Token.CLOSE_BRACKET) {
       val subTree = new Tree(lexeme.getLabel())
       tree.add(subTree)
       nextLexeme()
-      subTree.add(parseStatement())
-     // tree.add(parseStatement())
     }
-    lexeme = getLexeme()
-    val subTree = new Tree(lexeme.getLabel())
-    tree.add(subTree)
-    nextLexeme()
-          //tree.add(parseStatement())
-         // End inner if
-
-   /*   else
-        throw new Error("Closing ']' expected!")
-
-     // End outer if
     else
-        throw new Error("Opening '[' expected!")*/
+        throw new Error("Closing ']' expected!")
+    
+    // Return tree
+    tree
+  } // End parseIf
 
-  
-    // Return the tree
+  // while = ´(´ { statement } ´)´
+  private def parseWhile(): Tree = {
+    var lexeme = getLexeme()
+    val tree = new Tree("while")
+    while (getLexeme().getToken() != Token.CLOSE_PAR) {
+      val subTree = new Tree(lexeme.getLabel())
+      nextLexeme()
+      tree.add(subTree)
+      while (getLexeme().getToken() != Token.CLOSE_PAR) {
+        if (getLexeme().getToken() == Token.EO_PRG) {
+          throw new Error("Closing ')' expected!")
+        } // End if
+        tree.add(parseStatement())
+      } // End inner while
+    } // End outer while
+    
+    lexeme = getLexeme()
+    if (lexeme.getToken() == Token.CLOSE_PAR) {
+      val subTree = new Tree(lexeme.getLabel())
+      tree.add(subTree)
+      nextLexeme()
+    }
+    else
+        throw new Error("Closing ')' expected!")
+    
+    // Return tree
     tree
   } // End parseWhile
 

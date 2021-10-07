@@ -32,23 +32,21 @@ object Token extends Enumeration {
 
   val EOF             = Value // End of input file DONE
   val EO_PRG          = Value // $$ DONE
-  val QUESTION        = Value // ?
-  val EXCLAMATION     = Value // !
+  val QUESTION        = Value // ? DONE
+  val EXCLAMATION     = Value // ! DONE
   val STRING          = Value // String
   val IDENTIFIER      = Value // Identifier DONE
-  val EQUALS          = Value // =
+  val EQUALS          = Value // = DONE
   val LITERAL         = Value // Literal DONE
   val PLUS            = Value // + DONE
   val MINUS           = Value // - DONE
   val MULTIPLY        = Value // * DONE
   val DIVIDE          = Value // / DONE
-  val MODULO          = Value // \
+  val MODULO          = Value // \ DONE
   val BREAK           = Value // ^ DONE
   val DOT             = Value // . DONE
   val OPEN_BRACKET    = Value // [ DONE
   val CLOSE_BRACKET   = Value // ] DONE
   val OPEN_PAR        = Value // ( DONE
   val CLOSE_PAR       = Value // ) DONE
-  val IF              = Value // If
-  val WHILE           = Value // While
 } // End Token Object
