@@ -140,7 +140,7 @@ class SyntaxAnalyzer(private var source: String) {
       tree.add(subTree)
       while (getLexeme().getToken() != Token.CLOSE_BRACKET) {
         if (getLexeme().getToken() == Token.EO_PRG) {
-          throw new Error("Closing ']' expected!")
+          throw new Error("Syntax Analyzer error: Closing ']' expected!")
         } // End if
         tree.add(parseStatement())
       } // End inner while
@@ -153,7 +153,7 @@ class SyntaxAnalyzer(private var source: String) {
       nextLexeme()
     } // End if
     else
-        throw new Error("Closing ']' expected!")
+        throw new Error("Syntax Analyzer error: Closing ']' expected!")
     
     // Return tree
     tree
@@ -169,7 +169,7 @@ class SyntaxAnalyzer(private var source: String) {
       tree.add(subTree)
       while (getLexeme().getToken() != Token.CLOSE_PAR) {
         if (getLexeme().getToken() == Token.EO_PRG) {
-          throw new Error("Closing ')' expected!")
+          throw new Error("Syntax Analyzer error: Closing ')' expected!")
         } // End if
         tree.add(parseStatement())
       } // End inner while
@@ -182,7 +182,7 @@ class SyntaxAnalyzer(private var source: String) {
       nextLexeme()
     } // End if
     else
-        throw new Error("Closing ')' expected!")
+        throw new Error("Syntax analyzer error: Closing ')' expected!")
     
     // Return tree
     tree
