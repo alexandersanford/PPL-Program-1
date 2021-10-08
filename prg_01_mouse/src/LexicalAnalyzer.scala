@@ -1,8 +1,7 @@
 /*
- * WORK THIS FIRST 9/28
  * CS3210 - Principles of Programming Languages - Fall 2021
  * Instructor: Thyago Mota
- * Student(s): Adam Prieto
+ * Student(s): Adam Prieto and Alexander Sanford
  * Description: Prg 01 - LexicalAnalyzer (an iterable lexical analyzer)
  */
 
@@ -82,20 +81,19 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
       } // End hasNext
 
 
-
-
-
       // returns the next lexeme (or end of line if there isn't any lexeme left to be read)
-      // TODO: finish this part of the code
+      // TODOd: finish this part of the code
       override def next(): Lexeme = {
 
+        // Check if the file has no remaining digits
         if (!hasNext)
           return new Lexeme("eof", Token.EOF)
 
         readBlanks
         var c = getChar
-        var str = c + ""
+        var str = c + "";
 
+        // EXTRA CREDIT
         // Support for comments —Completed
         while (getChar() == '\'')
           {
@@ -106,8 +104,9 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
             nextChar()
             c = getChar()
           } // End outer while
-        
-        // Check if end of file
+
+
+        // Check if end of program
         if(str == "$")
           {
             nextChar()
@@ -118,6 +117,7 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
              } // End second if
           } // End first if
 
+        // Check if character is a letter
         else if (hasLetter) {
           nextChar
           var str = c + ""
@@ -127,7 +127,8 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
           }
           return new Lexeme(str, Token.IDENTIFIER)
         } // End if
-          
+
+        // Check if character is a digit
         else if (hasDigit())
           {
             nextChar
@@ -154,114 +155,133 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
               } // End else
           } // End else if
 
-        else if (c == '+') {
-          val str = c + ""
-          nextChar
-          return new Lexeme(str, Token.PLUS)
-        } // End else if
-          
-      else if (c == '-') {
-          val str = c + ""
-          nextChar
-          return new Lexeme(str, Token.MINUS)
-        } // End else if
-          
-      else if (c == '?') {
-          val str = c + ""
-          nextChar
-          return new Lexeme(str, Token.QUESTION)
-        } // End else if
-          
-      else if (c == '=') {
-          val str = c + ""
-          nextChar
-          return new Lexeme(str, Token.EQUALS)
-        } // End else if
-          
-      else if (c == '!') {
-          val str = c + ""
-          nextChar
-          return new Lexeme(str, Token.EXCLAMATION)
-        } // End else if    
-          
-      else if (c == '*') {
-          val str = c + ""
-          nextChar
-          return new Lexeme(str, Token.MULTIPLY)
-        } // End else if
-          
-        else if (c == '/') {
-          val str = c + ""
-          nextChar
-          return new Lexeme(str, Token.DIVIDE)
-        } // End else if
-          
-        else if (c == '\\') {
-          val str = c + ""
-          nextChar
-          return new Lexeme(str, Token.MODULO)
-        } // End else if
-
-        else if (c == '^')
-          {
+          // Begin token checks
+          // Plus token
+          else if (c == '+') {
             val str = c + ""
             nextChar
-            return new Lexeme(str, Token.BREAK)
+            return new Lexeme(str, Token.PLUS)
           } // End else if
 
-        else if (c == '.')
-          {
+          // Minus token
+          else if (c == '-')
+            {
+              val str = c + ""
+              nextChar
+              return new Lexeme(str, Token.MINUS)
+            } // End else if
+
+          // Question token
+          else if (c == '?') {
+              val str = c + ""
+              nextChar
+              return new Lexeme(str, Token.QUESTION)
+            } // End else if
+
+          // Equals token
+          else if (c == '=') {
+              val str = c + ""
+              nextChar
+              return new Lexeme(str, Token.EQUALS)
+            } // End else if
+
+          // Exclamation token
+          else if (c == '!') {
+              val str = c + ""
+              nextChar
+              return new Lexeme(str, Token.EXCLAMATION)
+            } // End else if
+
+          // Multiplication token
+          else if (c == '*') {
+              val str = c + ""
+              nextChar
+              return new Lexeme(str, Token.MULTIPLY)
+            } // End else if
+
+          // Divide token
+          else if (c == '/') {
             val str = c + ""
             nextChar
-            return new Lexeme(str, Token.DOT)
+            return new Lexeme(str, Token.DIVIDE)
           } // End else if
 
-        else if (c == '[')
-          {
+          // Modulo token
+          else if (c == '\\') {
             val str = c + ""
             nextChar
-            return new Lexeme(str, Token.OPEN_BRACKET)
+            return new Lexeme(str, Token.MODULO)
           } // End else if
 
-        else if (c == ']')
-          {
+          // Break token
+          else if (c == '^')
+            {
+              val str = c + ""
+              nextChar
+              return new Lexeme(str, Token.BREAK)
+            } // End else if
+
+          // Dot token
+          else if (c == '.')
+            {
+              val str = c + ""
+              nextChar
+              return new Lexeme(str, Token.DOT)
+            } // End else if
+
+          // First Bracket token
+          else if (c == '[')
+            {
+              val str = c + ""
+              nextChar
+              return new Lexeme(str, Token.OPEN_BRACKET)
+            } // End else if
+
+          // Second Bracket token
+          else if (c == ']')
+            {
+              val str = c + ""
+              nextChar
+              return new Lexeme(str, Token.CLOSE_BRACKET)
+            } // End else if
+
+          // First Par token
+          else if (c == '(') {
             val str = c + ""
             nextChar
-            return new Lexeme(str, Token.CLOSE_BRACKET)
+            return new Lexeme(str, Token.OPEN_PAR)
           } // End else if
-          
-        else if (c == '(') {
-          val str = c + ""
-          nextChar
-          return new Lexeme(str, Token.OPEN_PAR)
-        } // End else if
 
-        else if (c == ')') {
-          val str = c + ""
-          nextChar
-          return new Lexeme(str, Token.CLOSE_PAR)
-        } // End else if
-        
-        else if (c == '"') {
-          var string = ""
-          nextChar
-          while (!eof && getChar() != '\n' && getChar() != '"') {
-            string += getChar()
+          // Second Par token
+          else if (c == ')') {
+            val str = c + ""
             nextChar
-          }
-          if (getChar() == '"') {
+            return new Lexeme(str, Token.CLOSE_PAR)
+          } // End else if
+
+          // Double quote token
+          else if (c == '"') {
+            var string = ""
             nextChar
-            return new Lexeme(string, Token.STRING)
-          }
-          else {
-            throw new Exception("Lexical Analyzer error: Closing '\"' expected!")
-          }
-        } // End else if
-        
-        // else if (c == 'if')
-        // testing 1 2 3 can anybody hear me
+            while (!eof && getChar() != '\n' && getChar() != '"')
+              {
+                string += getChar()
+                nextChar
+              } // End while
+            if (getChar() == '"')
+            {
+              nextChar
+              return new Lexeme(string, Token.STRING)
+            } // End if
+            else
+            {
+              throw new Exception("Lexical Analyzer error: Closing '\"' expected!")
+            } // End else
+          } // End else if
+
 
         // throw an exception if an unrecognizable symbol is found
+        println("Unrecognized Symbol: " + c)
         throw new Exception("Lexical Analyzer Error: unrecognizable symbol found!")
       } // End next
     } // End Iterator[Lexeme]

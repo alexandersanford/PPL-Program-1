@@ -1,14 +1,17 @@
-"User's Value Factorial " ' Example program by Alex Sanford and Adam Prieto
+' Example program by Alex Sanford and Adam Prieto
+' As an aside, this program will not work correctly for values greater than 12
+' This is because of the maximum range of integer values
+"User's Value Factorial "
 multValue 0 =
 oneBefore 0 =
-userValue "Input userValue greater than 2: " ? =
+userValue "Input userValue integer greater than 1: " ? =
 oneBefore userValue . 1 - =
 multValue userValue . oneBefore . * =
 (
+    2 userValue . - ^
     userValue userValue . 1 - =
     oneBefore userValue . 1 - =
     multValue multValue . oneBefore . * =
-    2 oneBefore . - ^
 )
 "(userValue)! is " multValue . !
 $$

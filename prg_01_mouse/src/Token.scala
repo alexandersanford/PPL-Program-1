@@ -1,7 +1,7 @@
 /*
  * CS3210 - Principles of Programming Languages - Fall 2021
  * Instructor: Thyago Mota
- * Student(s):
+ * Student(s): Adam Prieto and Alexander Sanford
  * Description: Prg 01 - Token
  */
 

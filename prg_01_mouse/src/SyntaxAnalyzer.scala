@@ -1,7 +1,7 @@
 /*
  * CS3210 - Principles of Programming Languages - Fall 2021
  * Instructor: Thyago Mota
- * Student(s): Adam Prieto
+ * Student(s): Adam Prieto and Alexander Sanford
  * Description: Prg 01 - SyntaxAnalyzer (an iterable syntax analyzer)
  */
 
@@ -47,7 +47,7 @@ class SyntaxAnalyzer(private var source: String) {
     current = it.next
   }
 
-  // TODO: finish the recursive descent parser: need to finish parseStatement method
+  // TODOd: finish the recursive descent parser: need to finish parseStatement method
   // parses the program, returning its corresponding parse tree
   def parse() = {
     parseMouse()
@@ -62,9 +62,9 @@ class SyntaxAnalyzer(private var source: String) {
     while (getLexeme().getToken() != Token.EO_PRG) {
       if (getLexeme().getToken() == Token.EOF) {
         throw new Error("No '$$' found! Invalid Mouse file!")
-      }  
+      } // End if
       tree.add(parseStatement())
-    }
+    } // End while
     
     val lexeme = getLexeme()
     val subTree = new Tree(lexeme.getLabel())
@@ -128,7 +128,7 @@ class SyntaxAnalyzer(private var source: String) {
     nextLexeme() 
     // Return tree
     tree
-  }
+  } // End parseString
   
   // if = ´[´ { statement } ´]´
   private def parseIf(): Tree = {
@@ -141,7 +141,7 @@ class SyntaxAnalyzer(private var source: String) {
       while (getLexeme().getToken() != Token.CLOSE_BRACKET) {
         if (getLexeme().getToken() == Token.EO_PRG) {
           throw new Error("Closing ']' expected!")
-        }
+        } // End if
         tree.add(parseStatement())
       } // End inner while
     } // End outer while
@@ -151,7 +151,7 @@ class SyntaxAnalyzer(private var source: String) {
       val subTree = new Tree(lexeme.getLabel())
       tree.add(subTree)
       nextLexeme()
-    }
+    } // End if
     else
         throw new Error("Closing ']' expected!")
     
@@ -180,7 +180,7 @@ class SyntaxAnalyzer(private var source: String) {
       val subTree = new Tree(lexeme.getLabel())
       tree.add(subTree)
       nextLexeme()
-    }
+    } // End if
     else
         throw new Error("Closing ')' expected!")
     
@@ -214,10 +214,10 @@ object SyntaxAnalyzer {
     if (args.length != 1) {
       print("Missing source file!")
       System.exit(1)
-    }
+    } // End if
 
     val syntaxAnalyzer = new SyntaxAnalyzer(args(0))
     val parseTree = syntaxAnalyzer.parse()
     print(parseTree)
-  }
-}
+  } // End main
+} // End object SyntaxAnalyzer
