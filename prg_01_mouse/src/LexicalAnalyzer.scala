@@ -85,7 +85,7 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
       // TODOd: finish this part of the code
       override def next(): Lexeme = {
 
-        // Check if the file has no remaining digits
+        // Check if the file has no remaining characters
         if (!hasNext)
           return new Lexeme("eof", Token.EOF)
 
