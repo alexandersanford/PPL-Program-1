@@ -34,7 +34,7 @@ object Token extends Enumeration {
   val EO_PRG          = Value // $$ DONE
   val QUESTION        = Value // ? DONE
   val EXCLAMATION     = Value // ! DONE
-  val STRING          = Value // String
+  val STRING          = Value // String DONE
   val IDENTIFIER      = Value // Identifier DONE
   val EQUALS          = Value // = DONE
   val LITERAL         = Value // Literal DONE
