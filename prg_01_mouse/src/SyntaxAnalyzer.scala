@@ -103,12 +103,11 @@ class SyntaxAnalyzer(private var source: String) {
     else if (lexeme.getToken == Token.OPEN_PAR) 
       tree.add(parseWhile())
       
-   /* else if (lexeme.getToken == Token.CLOSE_BRACKET) 
+   else if (lexeme.getToken == Token.CLOSE_BRACKET) 
       throw new Error("Syntax Analyzer error: Opening '[' expected!")
         
     else if (lexeme.getToken == Token.CLOSE_PAR) 
       throw new Error("Syntax Analyzer error: Opening '(' expected!")
-      */
       
     else {
       val subTree = new Tree(lexeme.getLabel())

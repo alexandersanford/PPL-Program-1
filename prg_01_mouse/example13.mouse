@@ -1,0 +1,14 @@
+"User's Value Factorial " ' Example program by Alex Sanford and Adam Prieto
+multValue 0 =
+oneBefore 0 =
+userValue "Input userValue greater than 2: " ? =
+oneBefore userValue . 1 - =
+multValue userValue . oneBefore . * =
+(
+    userValue userValue . 1 - =
+    oneBefore userValue . 1 - =
+    multValue multValue . oneBefore . * =
+    2 oneBefore . - ^
+)
+"(userValue)! is " multValue . !
+$$

@@ -96,6 +96,17 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
         var c = getChar
         var str = c + ""
 
+        // Support for comments —Completed
+        while (getChar() == '\'')
+          {
+            while(getChar() != '\n' && !eof)
+              {
+                nextChar()
+              } // End inner while
+            nextChar()
+            c = getChar()
+          } // End outer while
+        
         // Check if end of file
         if(str == "$")
           {
@@ -110,6 +121,10 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
         else if (hasLetter) {
           nextChar
           var str = c + ""
+          while (!eof && hasLetter() && getChar() != '\n') {
+            str += getChar()
+            nextChar
+          }
           return new Lexeme(str, Token.IDENTIFIER)
         } // End if
           
@@ -226,7 +241,7 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
           nextChar
           return new Lexeme(str, Token.CLOSE_PAR)
         } // End else if
-
+        
         else if (c == '"') {
           var string = ""
           nextChar

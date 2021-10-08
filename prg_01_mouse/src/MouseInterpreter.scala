@@ -127,7 +127,7 @@ class MouseInterpreter(private var parseTree: Tree) {
       var done = false
       val it = branch.getBranches().iterator
       it.next // "consume" open bracket
-      val condition = stack.pop != 0
+      val condition = stack.pop > 0
       while (!done) {
         branch = it.next()
         label = branch.getAttribute("label").get
