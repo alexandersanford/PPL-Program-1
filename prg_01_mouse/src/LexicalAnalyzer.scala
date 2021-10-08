@@ -91,7 +91,7 @@ class LexicalAnalyzer(private var source: String) extends Iterable[Lexeme]{
 
         readBlanks
         var c = getChar
-        var str = c + "";
+        var str = c + ""
 
         // EXTRA CREDIT
         // Support for comments —Completed
